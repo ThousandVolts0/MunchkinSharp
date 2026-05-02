@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../MunchkinGame/MunchkinGame.csproj" />
+  <Project Path="Munchkin.csproj" />
+</Solution>
