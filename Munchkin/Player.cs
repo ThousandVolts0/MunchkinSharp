@@ -1,4 +1,5 @@
-﻿using System.Net.Security;
+﻿using Munchkin.Cards;
+using System.Net.Security;
 
 namespace Munchkin
 {
@@ -9,13 +10,9 @@ namespace Munchkin
         public int Level { get; set; } = 0;
         public Race Race { get; set; } = Race.Human;
 
-        public Dictionary<SlotType, Card> Slots { get; set; } = new();
-
-        public List<Card> Hand { get; set; } = new();
-        public List<Card> Played { get; set; } = new();
-
-        public void AddCard(Card card) => Hand.Add(card);
-        public void RemoveCard(Card card) => Hand.Remove(card);
+        public Dictionary<SlotType, CardInstance> Slots { get; } = new();
+        public List<CardInstance> Hand { get; }  = new();
+        public List<CardInstance> Played { get; } = new();
     }
 
     public enum SlotType

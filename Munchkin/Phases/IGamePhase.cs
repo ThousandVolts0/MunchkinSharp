@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Munchkin.Commands
+namespace Munchkin.Phases
 {
-    public interface ICommandResult
+    public interface IGamePhase
     {
+        IGamePhase Run();
     }
 }

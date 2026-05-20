@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace Munchkin.Phases
 {
     public class TurnEnd : IGamePhase
     {
-        public TurnContext Context;
-        public TurnEnd(TurnContext context)
+        public TurnContext TurnContext;
+        public GameSystems GameContext;
+        public TurnEnd(TurnContext turnContext, GameSystems gameContext)
         {
-            Context = context;
+            TurnContext = turnContext;
+            GameContext = gameContext;
         }
+
         public IGamePhase Run()
         {
-            TurnContext context = new TurnContext()
-            {
-                ActivePlayer = Context.GameContext.TurnSystem.AdvanceTurn(),
-                GameContext = Context.GameContext
-            };
-
-            return new TurnBegin(context);
+            GameContext.TurnSystem.AdvanceTurn();
+            return new TurnBegin(new TurnContext(TurnContext.ActivePlayer), GameContext);
         }
     }
 }

@@ -1,8 +1,16 @@
-﻿namespace Munchkin.Events
+﻿using Munchkin.Cards;
+
+namespace Munchkin.Events
 {
     public class OnCardPlayed : IGameEvent
     {
-        public required Card Card { get; set; }
-        public required Player Player { get; set; }
+        public CardInstance Card { get; set; }
+        public Player Player { get; set; }
+
+        public OnCardPlayed(Player player, CardInstance card)
+        {
+            Player = player;
+            Card = card;
+        }
     }
 }

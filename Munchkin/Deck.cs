@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Munchkin.Cards;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,30 +7,34 @@ namespace Munchkin
 {
     public class Deck
     {
-        private readonly List<Card> _cards = new();
-        public CardType CardType { get; set; }
+        private readonly List<CardInstance> _cards;
 
-        public Deck(CardType type)
+        public Deck(List<CardInstance> cards)
         {
-            CardType = type;
+            _cards = cards;
         }
 
-        public void Add(IEnumerable<Card> cards)
+        public void Shuffle(Random rand)
         {
-            _cards.AddRange(cards);
+            int count = _cards.Count;
+            List<CardInstance> copy = new(_cards);
+            _cards.Clear();
+
+            for (int i = 0; i < count; i++)
+            {
+                CardInstance card = copy[rand.Next(copy.Count)];
+                _cards.Add(card);
+                copy.Remove(card);
+            }
         }
 
-        public Card Draw()
+        public CardInstance Draw()
         {
-            var card = _cards.First();
+            var card = _cards.LastOrDefault();
+            if (card == null)
+                throw new InvalidOperationException("Deck is empty");
             _cards.Remove(card);
             return card;
         }
-    }
-
-    public interface ICard
-    {
-        public void Add(IEnumerable<Card> cards);
-        public Card Draw();
     }
 }

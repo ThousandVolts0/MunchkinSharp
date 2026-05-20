@@ -7,25 +7,28 @@ namespace Munchkin.Systems
 {
     public class TurnSystem
     {
-        private readonly IReadOnlyList<Player> _players;
-
-        public Player CurrentPlayer => _players[_currentPlayerIndex];
+        public IReadOnlyList<Player> Players { get; private set; }
+        public Player CurrentPlayer => Players[_currentPlayerIndex];
         private int _currentPlayerIndex = 0;
 
         public TurnSystem(IReadOnlyList<Player> players)
         {
-            _players = players;
+            Players = players;
+        }
+
+        public TurnSystem(List<Player> players)
+        {
+            Players = players.AsReadOnly();
         }
 
         private int GetNextPlayerIndex()
         {
-            return (_currentPlayerIndex + 1) % _players.Count;
+            return (_currentPlayerIndex + 1) % Players.Count;
         }
 
-        public Player AdvanceTurn()
+        public void AdvanceTurn()
         {
             _currentPlayerIndex = GetNextPlayerIndex();
-            return CurrentPlayer;
         }
     }
 }

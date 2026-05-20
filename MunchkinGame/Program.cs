@@ -1,27 +1,56 @@
 ﻿using Munchkin;
-using Munchkin.Systems;
 using Munchkin.Events;
 using Munchkin.Effects;
+using Munchkin.Cards;
+using Munchkin.IO;
 
-namespace MunchkinGame{
+namespace MunchkinProgram{
     internal class Program
     {
         static void Main(string[] args)
         {
-            Munchkin.Munchkin game = new Munchkin.Munchkin(new GameSettings() { IOProvider = new ConsoleIO() });
-
-            Card card = new Card()
+            MunchkinGame game = new MunchkinGame(new GameSettings()
             {
-                Name = "Test Card",
-                Description = "This is a test card.",
-                Effects = new List<Effect>()
-                {
-                    EffectFactory.Create<OnTurnBegin>("TestEffect", (ev, ctx) => Console.WriteLine(ev))
-                },
-                CardType = CardType.Door
-            };
-            game.Cards.Register("test_card", card);
+                IOProvider = new ConsoleIO(),
+                PlayerNames = PromptPlayerNameSelect(PromptPlayerAmountSelect())
+            });
             game.Start();
+        }
+
+
+        private static int PromptPlayerAmountSelect()
+        {
+            Console.Write("Select amount of players: ");
+            while (true)
+            {
+                string input = Console.ReadLine() ?? "";
+
+                if (input.Any() && int.TryParse(input, out int result))
+                    return result;
+
+                Console.Write("Invalid input, try again: ");
+            }
+        }
+
+        private static List<string> PromptPlayerNameSelect(int playerAmount)
+        {
+            List<string> playerNames = new();
+            int playersLeft = playerAmount;
+            while (playersLeft > 0)
+            {
+                Console.Write($"Enter name for player {playerAmount - playersLeft + 1}: ");
+                string playerName = Console.ReadLine() ?? "";
+                if (string.IsNullOrWhiteSpace(playerName))
+                {
+                    Console.WriteLine("Player name cannot be empty, try again.");
+                    continue;
+                }
+
+                playerNames.Add(playerName);
+                playersLeft--;
+            }
+
+            return playerNames;
         }
     }
 }

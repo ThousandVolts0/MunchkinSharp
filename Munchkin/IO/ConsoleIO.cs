@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Munchkin
+namespace Munchkin.IO
 {
     public class ConsoleIO : IIOProvider
     {

@@ -1,41 +1,48 @@
-﻿namespace Munchkin.Phases
+﻿using Munchkin.Cards;
+
+namespace Munchkin.Phases
 {
     public class TurnBegin : IGamePhase
     {
-        public TurnContext Context;
-        public TurnBegin(TurnContext context)
+        public TurnContext TurnContext; 
+        public GameSystems GameSystems;
+        public TurnBegin(TurnContext turnContext, GameSystems gameContext)
         {
-            Context = context;
+            TurnContext = turnContext;
+            GameSystems = gameContext;
         }
+
         public IGamePhase Run()
         {
+            Player player = TurnContext.ActivePlayer;
             while (true)
             {
-                Console.WriteLine("get card | play card");
-                string input = Console.ReadLine();
+                Console.WriteLine(player.Name);
+                Console.WriteLine("get card | show cards | play card | end turn");
+
+                string? input = Console.ReadLine();
                 switch (input)
                 {
                     case "get card":
-                        Context.ActivePlayer.Hand.Add(Context.GameContext.CardRegistry.Get("test_card"));
+                        //GameContext.CardSystem.GiveCard(player, GameAPI.GetCard("test_card"));
+                        GameSystems.CardSystem.Play(player.Hand[0], player);
                         break;
-
-                    //case "play card":
-                    //    Console.WriteLine("which card do you want to play?");
-                    //    string cardName = Console.ReadLine();
-                    //    var card = Context.ActivePlayer.Hand.FirstOrDefault(c => c.Name == cardName);
-                    //    if (card != null)
-                    //    {
-                    //        //Context.Player.PlayCard(card);
-                    //    }
-                    //    else
-                    //    {
-                    //        Console.WriteLine("you don't have that card");
-                    //    }
-                    //    break;
+                    case "show cards":
+                        foreach (CardInstance card in player.Hand)
+                        {
+                            Console.WriteLine(card.Definition.Name);
+                        }
+                        break;
+                    case "play card":
+                        GameSystems.CardSystem.Play(player.Hand[0],player);
+                        break;
+                    //case "end turn":
+                        //return new TurnEnd(new TurnContext(GameAPI.TurnSystem.GetActivePlayer()), GameAPI);
                 }
                 break;
             }
-            return new TurnEnd(Context);
+            TurnContext context = new(player);
+            return new TurnEnd(context, GameSystems);
         }
     }
 }

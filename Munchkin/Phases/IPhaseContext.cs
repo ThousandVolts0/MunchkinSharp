@@ -4,8 +4,5 @@ using System.Text;
 
 namespace Munchkin.Phases
 {
-    public interface IPhaseContext
-    {
-        GameContext GameContext { get; }
-    }
+    public interface IPhaseContext { }
 }
