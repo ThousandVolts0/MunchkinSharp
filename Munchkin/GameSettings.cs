@@ -8,6 +8,6 @@ namespace Munchkin
     public class GameSettings
     {
         public required IIOProvider IOProvider { get; set; }
-        public required List<string> PlayerNames { get; set; }
+        public required List<Player> Players { get; set; }
     }
 }

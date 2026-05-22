@@ -8,8 +8,8 @@ namespace Munchkin.Phases
     public class TurnEnd : IGamePhase
     {
         public TurnContext TurnContext;
-        public GameSystems GameContext;
-        public TurnEnd(TurnContext turnContext, GameSystems gameContext)
+        public GameServices GameContext;
+        public TurnEnd(TurnContext turnContext, GameServices gameContext)
         {
             TurnContext = turnContext;
             GameContext = gameContext;

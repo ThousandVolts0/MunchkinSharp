@@ -8,8 +8,8 @@ namespace Munchkin
 {
     public class GameAPI
     {
-        private GameSystems _systems;
-        internal GameAPI(GameSystems context)
+        private GameServices _systems;
+        internal GameAPI(GameServices context)
         {
             _systems = context;
         }

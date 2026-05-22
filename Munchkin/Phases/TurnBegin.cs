@@ -5,8 +5,8 @@ namespace Munchkin.Phases
     public class TurnBegin : IGamePhase
     {
         public TurnContext TurnContext; 
-        public GameSystems GameSystems;
-        public TurnBegin(TurnContext turnContext, GameSystems gameContext)
+        public GameServices GameSystems;
+        public TurnBegin(TurnContext turnContext, GameServices gameContext)
         {
             TurnContext = turnContext;
             GameSystems = gameContext;

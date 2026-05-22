@@ -12,40 +12,33 @@ namespace Munchkin
     {
         private readonly Random _random = new();
         private readonly GameRegistry _registry;
-        private readonly GameSystems _systems;
+        private readonly GameServices _services;
         private readonly GameState _state;
         private readonly GameAPI _api;
         private readonly GameSettings _settings;
 
-        public MunchkinGame(GameSettings gameSettings)
+        public bool IsRunning => _state.IsRunning;
+        internal MunchkinGame(GameSettings gameSettings, GameServices gameServices)
         {
+            _services = gameServices;
             _settings = gameSettings;
-            _state = new GameState();
-            _registry = new GameRegistry();
-            _systems = new GameSystems();
-            _api = new GameAPI(_systems);
-            
-            foreach (string playerName in _settings.PlayerNames) 
-            {
-                _state.Players.Add(new Player() { Name = playerName });
-            }
 
-            _systems.TreasureDeck = CreateDeck(CardType.Treasure, 4, 76);
-            _systems.DoorDeck = CreateDeck(CardType.Door, 4, 92);
-            _systems.EffectDispatcher = new EffectDispatcher(_api);
-            _systems.TurnSystem = new TurnSystem(_state.Players);
-            _systems.CardSystem = new CardSystem(_systems.EffectDispatcher);
+            //_systems.TreasureDeck = CreateDeck(CardType.Treasure, 4, 76);
+            //_systems.DoorDeck = CreateDeck(CardType.Door, 4, 92);
+            //_systems.EffectDispatcher = new EffectDispatcher(_api);
+            //_systems.TurnSystem = new TurnSystem(_state.Players);
+            //_systems.CardSystem = new CardSystem(_systems.EffectDispatcher);
 
-            _registry.Cards.Register("test_card", new CardDefinition()
-            {
-                Name = "Test Card",
-                Description = "This is a test card.",
-                Effects = new List<EffectDefinition>()
-                {
-                    EffectFactory.Create<OnCardPlayed>((ctx, api, source) => Console.WriteLine(source.Definition.Name + " just played"))
-                },
-                CardType = CardType.Door
-            });
+            //_registry.Cards.Register("test_card", new CardDefinition()
+            //{
+            //    Name = "Test Card",
+            //    Description = "This is a test card.",
+            //    Effects = new List<EffectDefinition>()
+            //    {
+            //        EffectFactory.Create<OnCardPlayed>((ctx, api, source) => Console.WriteLine(source.Definition.Name + " just played"))
+            //    },
+            //    CardType = CardType.Door
+            //});
 
             //_registry.Cards.Register("test_card2", new CardDefinition()
             //{
@@ -58,6 +51,8 @@ namespace Munchkin
             //    CardType = CardType.Treasure
             //});
         }
+
+        public MunchkinGame(GameSettings settings) : this(settings, MunchkinBootstrap.GetGameServices(settings)) { }
 
         private Deck CreateDeck(CardType type, int each, int max)
         {
@@ -91,23 +86,13 @@ namespace Munchkin
 
         public void Start()
         {
+            _state.CurrentPhase = new TurnBegin(new TurnContext(_services.TurnSystem.CurrentPlayer), _services);
             _state.IsRunning = true;
 
             GiveStartingHands();
-
-            _state.CurrentPhase = new TurnBegin(new TurnContext(_systems.TurnSystem.CurrentPlayer), _systems);
-            GameLoop();
         }
 
-        private void GameLoop()
-        {
-            while (_state.IsRunning)
-            {
-                NextState();
-            }
-        }
-
-        private void NextState()
+        public void NextPhase()
         {
             _state.CurrentPhase = _state.CurrentPhase.Run();
         }

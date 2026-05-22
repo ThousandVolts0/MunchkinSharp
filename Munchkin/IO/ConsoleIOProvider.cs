@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Munchkin.IO
 {
-    public class ConsoleIO : IIOProvider
+    public class ConsoleIOProvider : IIOProvider
     {
         public string Read()
         {
