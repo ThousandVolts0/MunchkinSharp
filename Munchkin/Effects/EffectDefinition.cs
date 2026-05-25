@@ -8,9 +8,11 @@ namespace Munchkin.Effects
 {
     public class EffectDefinition
     {
-        public required Type EventType { get; set; }
-        public required Action<IGameEvent, GameAPI, CardInstance> Action { get; set; }
+        internal EffectDefinition() { }
+        public Type EventType { get; set; }
+        public Action<IGameEvent, GameAPI, CardInstance> Action { get; set; }
         public Func<IGameEvent, GameAPI, CardInstance, bool>? Condition { get; set; }
+        public int Priority { get; set; } = 0; // Lower priority effects are executed first
 
         public EffectInstance CreateInstance(CardInstance source)
         {

@@ -3,6 +3,7 @@ using Munchkin.Services;
 using System.Windows.Input;
 using Munchkin.Cards;
 using Munchkin.Events;
+using Munchkin.Phases;
 
 namespace Munchkin
 {

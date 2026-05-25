@@ -50,7 +50,8 @@ namespace Munchkin.Services
             if (!_handlers.ContainsKey(eventType))
                 return;
 
-            foreach (var effect in _handlers[eventType])
+            List<EffectInstance> effectsToInvoke = _handlers[eventType].OrderBy(e => e.Definition.Priority).ToList();
+            foreach (var effect in effectsToInvoke)
             {
                 if (effect.Definition.Condition == null || effect.Definition.Condition(ev, _gameApi, effect.Source))
                 {

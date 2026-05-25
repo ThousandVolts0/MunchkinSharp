@@ -1,4 +1,5 @@
-﻿using Munchkin.Effects;
+﻿using Munchkin.Cards.Components;
+using Munchkin.Effects;
 namespace Munchkin.Cards
 {
     public class CardDefinition
@@ -7,8 +8,18 @@ namespace Munchkin.Cards
         public string Description { get; set; } = "";
         public required List<EffectDefinition> Effects { get; set; } = new List<EffectDefinition>();
         public required CardType Type { get; set; }
-        public CardData Data { get; } = new CardData();
-        public List<CardTag> Tags { get; set; } = new List<CardTag>();
+
+        public List<ICardComponent> Components { get; set; } = new();
+
+        public T GetComponent<T>() where T : ICardComponent
+        {
+            return Components.OfType<T>().FirstOrDefault() ?? throw new InvalidOperationException($"Card does not contain a component of type {typeof(T).Name}");
+        }
+
+        public bool HasComponent<T>() where T : ICardComponent
+        {
+            return Components.OfType<T>().FirstOrDefault() != null; 
+        }
 
         public CardInstance CreateInstance()
         {
@@ -20,11 +31,5 @@ namespace Munchkin.Cards
     {
         Door,
         Treasure
-    }
-
-    public enum CardTag
-    {
-        Monster,
-        Curse
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Munchkin.Cards;
 using Munchkin.Effects;
 using Munchkin.Events;
+using Munchkin.Cards.Components;
 
 namespace Munchkin
 {
@@ -17,21 +18,22 @@ namespace Munchkin
                 Name = "Monster 1",
                 Effects = new()
                 {
-                    EffectFactory.Create<OnCombatWin>(
-                        (e, api, card) => e.Player.Level += card.Definition.Data.Get<int>("LevelsGained"),
-                        (e, api, card) => e.Monster == card), // Only trigger if self
-                    EffectFactory.Create<OnCombatLose>(
-                        (e, api, card) => e.Player.Level -= card.Definition.Data.Get<int>("LevelsLost"),
-                        (e, api, card) => e.Monster == card), // Only trigger if self
+                    new EffectBuilder<OnCombatLose>()
+                    .Execute((e, api, card) => Console.WriteLine("Test"))
+                    .When((e,api,source) => e.Monster == source)
+                    .WithPriority(0)
+                    .Build()
                 },
                 Type = CardType.Door,
-                Tags = { CardTag.Monster },
-                Data = 
-                { 
-                    ["Level"] = 5, 
-                    ["Treasures"] = 3,
-                    ["LevelsGained"] = 1,
-                    ["LevelsLost"] = 1
+                Components =
+                {
+                    new MonsterComponent
+                    {
+                        Level = 1,
+                        TreasureCount = 1,
+                        LevelsGained = 1,
+                        LevelsLost = 1,
+                    }
                 }
             });
         }
