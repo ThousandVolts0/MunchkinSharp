@@ -7,11 +7,24 @@ namespace Munchkin
 {
     public class Deck
     {
-        private readonly List<CardInstance> _cards;
+        private readonly List<CardInstance> _cards = new();
 
-        public Deck(List<CardInstance> cards)
+        public void Fill(List<CardDefinition> cards, int each, int max)
         {
-            _cards = cards;
+            foreach (CardDefinition card in cards)
+            {
+                for (int i = 0; i < each; i++)
+                {
+                    _cards.Add(new CardInstance(card));
+                    if (_cards.Count >= max)
+                        return;
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            _cards.Clear();
         }
 
         public void Shuffle(Random rand)

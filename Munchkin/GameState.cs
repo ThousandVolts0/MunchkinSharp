@@ -9,6 +9,6 @@ namespace Munchkin
     {
         public IGamePhase CurrentPhase { get; set; }
         public bool IsRunning { get; set; } = false;
-        public List<Player> Players { get; } = new();
+        public List<Player> Players { get; set; } = new();
     }
 }

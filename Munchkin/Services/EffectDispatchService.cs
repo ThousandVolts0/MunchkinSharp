@@ -1,9 +1,8 @@
 ﻿using Munchkin.Effects;
 using Munchkin.Events;
-using System.Net;
-namespace Munchkin.Systems
+namespace Munchkin.Services
 {
-    public class EffectDispatcher
+    public class EffectDispatchService
     {
         private readonly Dictionary<Type, List<EffectInstance>> _handlers = new()
         {
@@ -12,9 +11,9 @@ namespace Munchkin.Systems
             [typeof(OnCardPlayed)] = new List<EffectInstance>()
         };
         private readonly GameAPI _gameApi;
-        public EffectDispatcher(GameAPI gameApi)
+        public EffectDispatchService(GameAPI api)
         {
-            _gameApi = gameApi;
+            _gameApi = api;
         }
 
         public void Subscribe(EffectInstance effect)

@@ -6,6 +6,7 @@ namespace Munchkin.IO
 {
     public interface IIOProvider
     {
+        public void Clear();
         public string Read();
         public void Write(string message);
     }

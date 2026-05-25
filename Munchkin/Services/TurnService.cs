@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 using Munchkin.Events;
 
-namespace Munchkin.Systems
+namespace Munchkin.Services
 {
-    public class TurnSystem
+    public class TurnService
     {
         public IReadOnlyList<Player> Players { get; private set; }
         public Player CurrentPlayer => Players[_currentPlayerIndex];
         private int _currentPlayerIndex = 0;
 
-        public TurnSystem(IReadOnlyList<Player> players)
+        public TurnService(IReadOnlyList<Player> players)
         {
             Players = players;
         }
 
-        public TurnSystem(List<Player> players)
+        public TurnService(List<Player> players)
         {
             Players = players.AsReadOnly();
         }

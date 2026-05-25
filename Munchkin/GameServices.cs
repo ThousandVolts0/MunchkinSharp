@@ -1,5 +1,4 @@
-﻿using Munchkin.Systems;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,11 +6,24 @@ namespace Munchkin
 {
     public class GameServices
     {
-        public TurnService TurnSystem { get; set; }
-        public CardService CardSystem { get; set; }
-        public EffectDispatcher EffectDispatcher { get; set; }
+        private readonly Dictionary<Type, object> _services = new();
 
-        public Deck TreasureDeck { get; set; }
-        public Deck DoorDeck { get; set; }
+        public void Register<T>(T service)
+        {
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+
+            _services[typeof(T)] = service;
+        }
+
+        public void Unregister<T>()
+        {
+            _services.Remove(typeof(T));
+        }
+
+        public T Get<T>()
+        {
+            return (T)_services[typeof(T)];
+        }
     }
 }

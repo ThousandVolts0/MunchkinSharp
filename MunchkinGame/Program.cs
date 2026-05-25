@@ -18,9 +18,10 @@ namespace MunchkinProgram{
 
             MunchkinGame game = new MunchkinGame(settings);
             game.Start();
+
             while (game.IsRunning)
             {
-                game.NextPhase();
+                game.Update();
             }
         }
     }

@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 using Munchkin.IO;
-using Munchkin.Systems;
+using Munchkin.Services;
 
 namespace Munchkin
 {
     public static class MunchkinBootstrap
     {
-        internal static GameServices GetGameServices(GameSettings gameSettings)
+        internal static GameServices CreateGameServices(GameSettings gameSettings)
         {
-            EffectDispatcher effectDispatcher = new EffectDispatcher();
-            TurnService turnService = new TurnService(gameSettings.Players);
-            CardService cardService = new CardService(effectDispatcher);
             GameServices services = new GameServices();
-            //_systems.EffectDispatcher = new EffectDispatcher(_api);
-            //_systems.TurnSystem = new TurnSystem(_state.Players);
-            //_systems.CardSystem = new CardSystem(_systems.EffectDispatcher);
+            GameAPI gameApi = new GameAPI(services);
+            EffectDispatchService effectDispatcher = new EffectDispatchService(gameApi);
+            TurnService turnService = new TurnService(gameSettings.Players);
+            CardInteractionService cardService = new CardInteractionService(effectDispatcher);
+            DeckService deckService = new DeckService();
+            CombatService combatService = new CombatService();
 
-            throw new NotImplementedException();
+            services.Register(effectDispatcher);
+            services.Register(turnService);
+            services.Register(cardService);
+            services.Register(deckService);
+            services.Register(combatService);
+            return services;
         }
 
         public static List<Player> SetupPlayers(IIOProvider? ioProvider = null)

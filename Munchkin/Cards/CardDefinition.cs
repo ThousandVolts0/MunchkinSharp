@@ -6,7 +6,9 @@ namespace Munchkin.Cards
         public required string Name { get; set; }
         public string Description { get; set; } = "";
         public required List<EffectDefinition> Effects { get; set; } = new List<EffectDefinition>();
-        public required CardType CardType { get; set; }
+        public required CardType Type { get; set; }
+        public CardData Data { get; } = new CardData();
+        public List<CardTag> Tags { get; set; } = new List<CardTag>();
 
         public CardInstance CreateInstance()
         {
@@ -18,5 +20,11 @@ namespace Munchkin.Cards
     {
         Door,
         Treasure
+    }
+
+    public enum CardTag
+    {
+        Monster,
+        Curse
     }
 }

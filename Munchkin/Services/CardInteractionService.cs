@@ -1,23 +1,19 @@
 ﻿using Munchkin.Cards;
 using Munchkin.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Munchkin.Systems
+namespace Munchkin.Services
 {
-    public class CardSystem
+    public class CardInteractionService
     {
-        private readonly EffectDispatcher _dispatcher;
+        private readonly EffectDispatchService _dispatcher;
 
-        public CardSystem(EffectDispatcher dispatcher)
+        public CardInteractionService(EffectDispatchService dispatcher)
         {
             _dispatcher = dispatcher;
         }
 
-        public void Draw(Player player, Deck deck)
+        public void AddToHand(CardInstance card, Player player)
         {
-            CardInstance card = deck.Draw();
             _dispatcher.Subscribe(card.Effects);
             player.Hand.Add(card);
         }

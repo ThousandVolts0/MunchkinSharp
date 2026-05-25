@@ -6,6 +6,11 @@ namespace Munchkin.IO
 {
     public class ConsoleIOProvider : IIOProvider
     {
+        public void Clear()
+        {
+            Console.Clear();
+        }
+
         public string Read()
         {
             return Console.ReadLine() ?? "";
