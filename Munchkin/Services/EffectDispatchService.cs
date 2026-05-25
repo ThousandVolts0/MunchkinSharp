@@ -44,6 +44,14 @@ namespace Munchkin.Services
             }
         }
 
+        public void Unsubscribe(IEnumerable<EffectInstance> effects)
+        {
+            foreach (var effect in effects)
+            {
+                Unsubscribe(effect);
+            }
+        }
+
         public void Invoke(IGameEvent ev)
         {
             Type eventType = ev.GetType();

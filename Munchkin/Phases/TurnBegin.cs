@@ -100,7 +100,7 @@ namespace Munchkin.Phases
                 if (int.TryParse(input, out int index) && index >= 1 && index <= player.Hand.Count)
                 {
                     CardInstance card = player.Hand[index - 1];
-                    cardService.Play(card, player);
+                    cardService.PlayCard(card, player);
                     io.Write($"Played {card.Definition.Name}");
                     io.Write("Press any key to continue...");
                     io.Read();
@@ -118,7 +118,7 @@ namespace Munchkin.Phases
 
             CardInstance card = deckService.Draw(CardType.Door);
             effectService.Invoke(new OnDoorOpen { Card = card, Player = player });
-            cardService.AddToHand(card, player);
+            cardService.AddCardToHand(card, player);
             effectService.Invoke(new OnCardPickup { Card = card, Player = player });
 
             io.Clear();

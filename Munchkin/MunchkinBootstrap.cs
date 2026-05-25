@@ -16,13 +16,11 @@ namespace Munchkin
             TurnService turnService = new TurnService(gameSettings.Players);
             CardInteractionService cardService = new CardInteractionService(effectDispatcher);
             DeckService deckService = new DeckService();
-            CombatService combatService = new CombatService();
 
             services.Register(effectDispatcher);
             services.Register(turnService);
             services.Register(cardService);
             services.Register(deckService);
-            services.Register(combatService);
             return services;
         }
 

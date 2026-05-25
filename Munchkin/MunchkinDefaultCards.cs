@@ -6,6 +6,7 @@ using Munchkin.Cards;
 using Munchkin.Effects;
 using Munchkin.Events;
 using Munchkin.Cards.Components;
+using Munchkin.Phases;
 
 namespace Munchkin
 {
@@ -24,8 +25,14 @@ namespace Munchkin
                     .WithPriority(0)
                     .Build(),
 
+                    new EffectBuilder<OnCombatStart>()
+                    .Execute((e, api, card) => e.Bonus += 5)
+                    .When((e,api,source) => e.Monster == source)
+                    .WithPriority(0)
+                    .Build(),
+
                     new EffectBuilder<OnCardSerialize>()
-                    .Execute((e,api,card) => Console.WriteLine("Test card serialization"))
+                    .Execute((e,api,card) => Console.WriteLine("This is a testing card"))
                     .When((e,api,source) => e.Card == source)
                     .WithPriority(0)
                     .Build(),

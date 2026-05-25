@@ -12,13 +12,38 @@ namespace Munchkin.Services
             _dispatcher = dispatcher;
         }
 
-        public void AddToHand(CardInstance card, Player player)
+        public void AddCardToHand(CardInstance card, Player player)
         {
             _dispatcher.Subscribe(card.Effects);
             player.Hand.Add(card);
         }
 
-        public void Play(CardInstance card, Player player)
+        public void RemoveCardFromHand(CardInstance card, Player player)
+        {
+            if (player.Hand.Contains(card))
+            {
+                _dispatcher.Unsubscribe(card.Effects);
+                player.Hand.Remove(card);
+            }
+        }
+
+        public bool HasCardInPlay(Player player, CardInstance card, Func<CardInstance, bool>? condition = null)
+        {
+            if (condition != null)
+                return player.Played.Contains(card) && condition(card);
+
+            return player.Played.Contains(card);
+        }
+
+        public bool HasCardInHand(Player player, CardInstance card, Func<CardInstance, bool>? condition = null)
+        {
+            if (condition != null)
+                return player.Hand.Contains(card) && condition(card);
+
+            return player.Hand.Contains(card);
+        }
+
+        public void PlayCard(CardInstance card, Player player)
         {
             if (player.Hand.Contains(card))
             {
@@ -26,6 +51,15 @@ namespace Munchkin.Services
                 player.Played.Add(card);
                 player.Hand.Remove(card);
             }   
+        }
+
+        public void DiscardCard(CardInstance card, Player player)
+        {
+            if (player.Played.Contains(card))
+            {
+                _dispatcher.Invoke(new OnCardDiscarded { Card = card, Player = player });
+                player.Hand.Remove(card);
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Munchkin.Events
 {
-    internal class OnDoorOpen : IGameEvent
+    public class OnDoorOpen : IGameEvent
     {
         public required CardInstance Card { get; set; }
         public required Player Player { get; set; }

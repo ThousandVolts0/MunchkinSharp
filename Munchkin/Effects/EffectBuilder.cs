@@ -17,7 +17,7 @@ namespace Munchkin.Effects
             _instance.EventType = typeof(TEvent);
         }
 
-        public EffectBuilder<TEvent> Execute(Action<IGameEvent, GameAPI, CardInstance> action)
+        public EffectBuilder<TEvent> Execute(Action<TEvent, GameAPI, CardInstance> action)
         {
             _instance.Action = (ev, ctx, source) => action.Invoke((TEvent)ev, ctx, source);
             return this;

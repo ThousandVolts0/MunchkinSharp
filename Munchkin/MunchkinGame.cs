@@ -39,7 +39,7 @@ namespace Munchkin
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    cardService.AddToHand(deckService.Draw(CardType.Door), player);
+                    cardService.AddCardToHand(deckService.Draw(CardType.Door), player);
                     //cardService.AddToHand(deckService.Draw(CardType.Treasure), player);
                 }
             }

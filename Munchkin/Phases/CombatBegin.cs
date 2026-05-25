@@ -1,4 +1,5 @@
 ﻿using Munchkin.Cards;
+using Munchkin.Cards.Components;
 using Munchkin.Events;
 using Munchkin.IO;
 using Munchkin.Services;
@@ -24,7 +25,6 @@ namespace Munchkin.Phases
         public IGamePhase Run()
         {
             EffectDispatchService effectService = _services.Get<EffectDispatchService>();
-            CombatService combatService = _services.Get<CombatService>();
             IIOProvider io = _settings.IOProvider;
             Player player = _combatContext.ActivePlayer;
             CardInstance card = _combatContext.Monster;
@@ -32,11 +32,21 @@ namespace Munchkin.Phases
             io.Clear();
             io.Write($"{player.Name} encounters {card.Definition.Name}!");
 
-            effectService.Invoke(new OnCombatStart { Player = player, Monster = card });
-            bool win = combatService.EvaluateCombat(player, card);
+            OnCombatStart combatStartEvent = new OnCombatStart { Player = player, Monster = card, Bonus = 0 };
+            effectService.Invoke(combatStartEvent);
+
+            int bonus = combatStartEvent.Bonus;
+            int monsterLevel = card.Definition.GetComponent<MonsterComponent>().Level;
+
+            io.Write($"Player Level: {player.Level}");
+            io.Write($"Monster Level: {monsterLevel}");
+            io.Write($"Bonus: {bonus}");
+
+            bool win = player.Level + bonus >= monsterLevel;
 
             IGameEvent combatResultEvent = win ? new OnCombatWin { Player = player, Monster = card } : new OnCombatLose { Player = player, Monster = card };
             effectService.Invoke(combatResultEvent);
+
             io.Write(win ? $"{player.Name} won the combat!" : $"{player.Name} lost the combat!");
             io.Write("Press any key to continue...");
             io.Read();

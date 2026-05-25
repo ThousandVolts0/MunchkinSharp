@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Munchkin.Events
 {
-    public class OnCombatWin : IGameEvent
+    public class OnCardDiscarded : IGameEvent
     {
         public required Player Player { get; set; }
-        public required CardInstance Monster { get; set; }
+        public required CardInstance Card { get; set; }
     }
 }
