@@ -38,7 +38,7 @@ namespace Munchkin.Phases
                     switch (result)
                     {
                         case 1:
-                            ShowCards(player, io);
+                            ShowCards(player, _services, io);
                             io.Write("Press any key to continue...");
                             io.Read();
                             continue;
@@ -69,19 +69,20 @@ namespace Munchkin.Phases
             return new TurnEnd(context, _services, _settings);
         }
 
-        private void ShowCards(Player player, IIOProvider io)
+        private void ShowCards(Player player, GameServices services, IIOProvider io)
         {
             io.Clear();
             io.Write("Cards in hand:");
             for (int i = 0; i < player.Hand.Count; i++)
             {
                 io.Write($"{i + 1}. {player.Hand[i].Definition.Name}");
+                services.Get<EffectDispatchService>().Invoke(new OnCardSerialize { Card = player.Hand[i] });
             }
         }
 
         private void PlayCard(Player player, GameServices services, IIOProvider io)
         {
-            ShowCards(player, io);
+            ShowCards(player, services, io);
             CardInteractionService cardService = services.Get<CardInteractionService>();
 
             if (player.Hand.Count == 0)

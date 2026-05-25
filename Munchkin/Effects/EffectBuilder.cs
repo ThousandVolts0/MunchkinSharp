@@ -5,7 +5,7 @@ using Munchkin.Registries;
 namespace Munchkin.Effects
 {
     /// <summary>
-    /// Simple helper to allow users to create effect definitions with events as generics
+    /// Simple generic effect definition builder utilizing the builder pattern
     /// </summary>
     public class EffectBuilder<TEvent> where TEvent : IGameEvent
     {

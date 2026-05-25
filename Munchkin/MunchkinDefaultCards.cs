@@ -22,7 +22,13 @@ namespace Munchkin
                     .Execute((e, api, card) => Console.WriteLine("Test"))
                     .When((e,api,source) => e.Monster == source)
                     .WithPriority(0)
-                    .Build()
+                    .Build(),
+
+                    new EffectBuilder<OnCardSerialize>()
+                    .Execute((e,api,card) => Console.WriteLine("Test card serialization"))
+                    .When((e,api,source) => e.Card == source)
+                    .WithPriority(0)
+                    .Build(),
                 },
                 Type = CardType.Door,
                 Components =
