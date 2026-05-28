@@ -32,10 +32,10 @@ namespace Munchkin.Phases
             io.Clear();
             io.Write($"{player.Name} encounters {card.Definition.Name}!");
 
-            OnCombatStart combatStartEvent = new OnCombatStart { Player = player, Monster = card, Bonus = 0 };
+            OnCombatStart combatStartEvent = new OnCombatStart(player, card);
             effectService.Invoke(combatStartEvent);
 
-            int bonus = combatStartEvent.Bonus;
+            int bonus = combatStartEvent.Bonus.GetTotal();
             int monsterLevel = card.Definition.GetComponent<MonsterComponent>().Level;
 
             io.Write($"Player Level: {player.Level}");

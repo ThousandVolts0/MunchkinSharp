@@ -26,7 +26,7 @@ namespace Munchkin
                     .Build(),
 
                     new EffectBuilder<OnCombatStart>()
-                    .Execute((e, api, card) => e.Bonus += 5)
+                    .Execute((e, api, card) => e.Bonus.Modify(Operation.Add, 10))
                     .When((e,api,source) => e.Monster == source)
                     .WithPriority(0)
                     .Build(),

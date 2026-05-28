@@ -17,7 +17,7 @@ namespace Munchkin
 
         public IReadOnlyList<Player> Players => _services.Get<TurnService>().Players;
         public Player CurrentPlayer => _services.Get<TurnService>().CurrentPlayer;
-
+            
         public bool HasCard(Player player, CardInstance card, bool inHand = false)
         {
             CardInteractionService cardService = _services.Get<CardInteractionService>();
