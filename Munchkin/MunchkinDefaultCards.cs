@@ -23,7 +23,7 @@ namespace Munchkin
                     .Execute((e, api, card) => Console.WriteLine("Test"))
                     .When((e,api,source) => e.Monster == source)
                     .WithPriority(0)
-                    .Build(),
+                    .BuildAs("registered_test_effect", registry.Effects),
 
                     new EffectBuilder<OnCombatStart>()
                     .Execute((e, api, card) => e.Bonus.Modify(Operation.Add, 10))

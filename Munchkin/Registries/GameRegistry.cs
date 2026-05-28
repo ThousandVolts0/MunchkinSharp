@@ -9,5 +9,6 @@ namespace Munchkin.Registries
     public class GameRegistry
     {
         public IRegistry<CardDefinition> Cards { get; } = new CardRegistry();
+        public IRegistry<EffectDefinition> Effects { get; } = new EffectRegistry();
     }
 }

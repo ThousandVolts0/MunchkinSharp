@@ -35,6 +35,12 @@ namespace Munchkin.Effects
             return this;
         }
 
+        public EffectDefinition BuildAs(string id, IRegistry<EffectDefinition> registry)
+        {
+            registry.Register(id, _instance);
+            return _instance;
+        }
+
         public EffectDefinition Build()
         {
             return _instance;

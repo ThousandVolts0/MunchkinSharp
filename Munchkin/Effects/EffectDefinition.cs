@@ -10,7 +10,7 @@ namespace Munchkin.Effects
     {
         internal EffectDefinition() { }
         public Type EventType { get; set; }
-        public Action<IGameEvent, GameAPI, CardInstance> Action { get; set; }
+        public Action<IGameEvent, GameAPI, CardInstance> Action { get; set; } // Todo: wrap arguments as context object instead
         public Func<IGameEvent, GameAPI, CardInstance, bool>? Condition { get; set; }
         public int Priority { get; set; } = 0; // Lower priority effects are executed first
 

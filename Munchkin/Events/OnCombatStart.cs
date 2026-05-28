@@ -10,7 +10,6 @@ namespace Munchkin.Phases
     {
         public Player Player { get; set; }
         public CardInstance Monster { get; set; }
-
         public TrackedValue<int> Bonus { get; } = new();
 
         public OnCombatStart(Player player, CardInstance monster)
